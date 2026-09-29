@@ -1,0 +1,19 @@
+name: portal-pasien
+
+services:
+  portal-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      APP_URL: http://localhost:8015
+    ports:
+      - "8015:8000"
+    volumes:
+      - portal_storage:/var/www/html/storage
+
+volumes:
+  portal_storage:
