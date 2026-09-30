@@ -1,7 +1,8 @@
-name: portal-pasien
+name: portal-api
 
 services:
   portal-api:
+    container_name: portal-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,3 +18,4 @@ services:
 
 volumes:
   portal_storage:
+    name: portal-api-storage
