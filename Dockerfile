@@ -31,6 +31,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Pindahkan COPY composer.* dan RUN composer install KE SINI 
+# (setelah ekstensi PHP terinstall sepenuhnya)
 COPY composer.json composer.lock ./
 
 RUN composer install \
