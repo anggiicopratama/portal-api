@@ -16,15 +16,16 @@ class LoginPortalController extends Controller
             $no_rm = $request->no_rm;
             $tanggal_lahir = $request->tanggal_lahir;
 
-            $no_rm = DB::table('PasienList')
+            // dd($no_rm, $tanggal_lahir);
+            $no_rm = DB::connection('sqlsrv')->table('PasienList')
                 ->where('RegNum', $no_rm)
                 ->where('Tanggal_Lahir', $tanggal_lahir)
                 ->select(['RegNum', 'Nama'])
                 ->first();
 
-            $patient_list = DB::table('Therapy')->where('Register', $no_rm->RegNum)->select(['ID', 'Tanggal', 'FollowUp'])->orderBy('Tanggal', 'DESC')->get();
-            $data_radiologi = DB::table('TRadMedik')->whereIn('IDReg', $patient_list->pluck('ID'))->select(['IDRad', 'IDReg', 'TRad'])->get();
-            $data_lab = DB::table('Laborat as l')
+            $patient_list = DB::connection('sqlsrv')->table('Therapy')->where('Register', $no_rm->RegNum)->select(['ID', 'Tanggal', 'FollowUp'])->orderBy('Tanggal', 'DESC')->get();
+            $data_radiologi = DB::connection('sqlsrv')->table('TRadMedik')->whereIn('IDReg', $patient_list->pluck('ID'))->select(['IDRad', 'IDReg', 'TRad'])->get();
+            $data_lab = DB::connection('sqlsrv')->table('Laborat as l')
                 ->whereIn('l.IDReg', $patient_list->pluck('ID'))
                 ->select(['IDLab', 'IDReg', 'TLab'])
                 ->get();

@@ -19,7 +19,8 @@ Route::middleware('portal.token')->prefix('portal-pasien')->group(function (): v
     Route::get('/foto/{foto}', [PortalPasienController::class, 'radiologiFoto'])->name('radiologi.foto');
 });
 
-Route::prefix('v5')->middleware(['portal.token', 'db.medical-sql'])->group(function (): void {
+Route::prefix('v5')->group(function (): void {
+// Route::prefix('v5')->middleware(['portal.token'])->group(function (): void {
     Route::get('portal-laborat/{patientID}', [LaboratController::class, 'getLaborat']);
     Route::get('portal-radiologi/{patientID}', [RadiologiController::class, 'getRadiologi']);
     Route::get('radiologi/foto/{id}', [RadiologiController::class, 'fotoRadiologi'])

@@ -1,3 +1,26 @@
+# name: portal-api
+
+# services:
+#   portal-api:
+#     container_name: portal-api
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     restart: unless-stopped
+#     env_file:
+#       - .env
+#     environment:
+#       APP_URL: http://localhost:8015
+#     ports:
+#       - "8015:8000"
+#     volumes:
+#       - portal_storage:/var/www/html/storage
+
+# volumes:
+#   portal_storage:
+#     name: portal-api-storage
+
+
 name: portal-api
 
 services:
@@ -14,7 +37,8 @@ services:
     ports:
       - "8015:8000"
     volumes:
-      - portal_storage:/var/www/html/storage
+      - .:/var/www/html                     # <-- TAMBAHKAN BARIS INI (Sync source code)
+      - portal_storage:/var/www/html/storage # (Volume storage tetap aman)
 
 volumes:
   portal_storage:

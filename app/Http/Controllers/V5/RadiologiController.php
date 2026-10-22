@@ -14,10 +14,10 @@ class RadiologiController extends Controller
     public function getRadiologi($patient_id)
     {
         try {
-            $data_radiologi = DB::table('TRadMedik')->where('IDReg', $patient_id)->select(['IDRad', 'IDReg'])->get();
+            $data_radiologi = DB::connection('sqlsrv')->table('TRadMedik')->where('IDReg', $patient_id)->select(['IDRad', 'IDReg'])->get();
             foreach ($data_radiologi as $key => $value) {
-                $data_radiologi[$key]->foto = DB::table('TRadiologiFoto')->where('ID', $value->IDRad)->get();
-                $bacaan = DB::select('EXEC [dbo].[RadiologiResultKwit_SP] ?', [$value->IDRad]);
+                $data_radiologi[$key]->foto = DB::connection('sqlsrv')->table('TRadiologiFoto')->where('ID', $value->IDRad)->get();
+                $bacaan = DB::connection('sqlsrv')->select('EXEC [dbo].[RadiologiResultKwit_SP] ?', [$value->IDRad]);
                 $bacaan_pacs = $this->getByIdRadiologi($value->IDRad);
                 foreach ($bacaan as $k => $v) {
                     $bacaan[$k]->pacs = '';
@@ -88,7 +88,7 @@ class RadiologiController extends Controller
 
     private function serveFoto($id, string $disposition)
     {
-        $foto = DB::table('TRadiologiFoto')->where('ID', $id)->first();
+        $foto = DB::connection('sqlsrv')->table('TRadiologiFoto')->where('ID', $id)->first();
         abort_unless($foto && ! empty($foto->name), 404, 'Foto not found');
 
         $fileName = (string) $foto->name;

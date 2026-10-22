@@ -11,7 +11,7 @@ class TherapyController extends Controller
 {
     public function detailPatientPortal($patient_id)
     {
-        $patient = Therapy::select([
+        $patient = Therapy::connection('sqlsrv')->select([
             'ID',
             'Register',
             'DokterID',

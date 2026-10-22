@@ -54,6 +54,7 @@ class PortalPasienController extends Controller
 
     public function getSurat(int $patient_id): JsonResponse
     {
+        // dd($patient_id);
         try {
             $surat = [
                 'surat_sakit_rj' => SuratSakit::find($patient_id),
@@ -98,6 +99,7 @@ class PortalPasienController extends Controller
                     'noka' => $validated['no_kartu'],
                     'filter' => 1,
                 ]);
+                // dd($response->json(),config('services.portal_api.skdp_url'));
 
             return response()->json($response->json(), $response->status());
         } catch (\Throwable $exception) {

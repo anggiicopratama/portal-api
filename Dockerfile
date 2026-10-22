@@ -2,6 +2,10 @@ FROM php:8.3-cli-bookworm
 
 WORKDIR /var/www/html
 
+# The image runs as www-data. Give CLI tools such as PsySH/Tinker a writable
+# home instead of falling back to /var/www/.config, which www-data cannot write.
+ENV HOME=/var/www/html
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -40,13 +44,14 @@ RUN composer install \
 COPY --chown=www-data:www-data . .
 
 RUN mkdir -p \
+        .config/psysh \
         storage/framework/cache/data \
         storage/framework/sessions \
         storage/framework/testing \
         storage/framework/views \
         storage/logs \
         bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && chown -R www-data:www-data .config storage bootstrap/cache
 
 USER www-data
 

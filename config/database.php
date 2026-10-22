@@ -110,6 +110,10 @@ return [
             'charset' => env('SQLSRV_DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
+
+            // --- TAMBAHKAN ATAU SESUAIKAN BARIS INI ---
+    'encrypt' => env('DB_ENCRYPT', 'yes'),                  // atau 'true' / 'optional'
+    'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'true'), // <-- INI YANG UTAMA
             // 'encrypt' => env('SQLSRV_DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('SQLSRV_DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],

@@ -12,14 +12,14 @@ class LaboratController extends Controller
     public function getLaborat($patient_id)
     {
         try {
-            $data_lab = DB::table('Laborat as l')
+            $data_lab = DB::connection('sqlsrv')->table('Laborat as l')
                 ->leftJoin('LaboratPasFoto as f', 'f.ID', '=', 'l.IDLab')
                 ->where('l.IDReg', $patient_id)
                 ->select(['l.IDLab as IDLab', 'l.IDReg as IDReg', 'f.name as pdf'])
                 ->get();
 
             foreach ($data_lab as $key => $value) {
-                $result = collect(DB::select('EXEC [dbo].[LaboratResultKwit_SP] ?', [$value->IDLab]));
+                $result = collect(DB::connection('sqlsrv')->select('EXEC [dbo].[LaboratResultKwit_SP] ?', [$value->IDLab]));
                 $data_lab[$key]->result = $result;
             }
 
